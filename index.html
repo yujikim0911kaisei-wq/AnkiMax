@@ -204,8 +204,16 @@ function deck(){return state.decks[state.activeDeckId]}
 function family(f){return deck()[f]}
 function showScreen(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active")}
 function showMainTab(tab){
-  ["decks","search","stats"].forEach(x=>{document.getElementById(x+"Tab").style.display=x===tab?"block":"none";document.getElementById("tab"+x.charAt(0).toUpperCase()+x.slice(1)).classList.toggle("active",x===tab)});
-  if(tab==="decks")renderDecks();else if(tab==="search")renderSearch();else renderStats();
+  const buttonIds={decks:"tabDeck",search:"tabSearch",stats:"tabStats"};
+  ["decks","search","stats"].forEach(x=>{
+    const panel=document.getElementById(x+"Tab");
+    const button=document.getElementById(buttonIds[x]);
+    if(panel)panel.style.display=x===tab?"block":"none";
+    if(button)button.classList.toggle("active",x===tab);
+  });
+  if(tab==="decks")renderDecks();
+  else if(tab==="search")renderSearch();
+  else if(tab==="stats")renderStats();
 }
 function createDeck(){
   const name=prompt("デッキ名を入力してください");if(!name||!name.trim())return;
